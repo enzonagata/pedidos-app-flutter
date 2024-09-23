@@ -6,8 +6,8 @@ import 'package:app/app/ui/widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class Pedido extends StatelessWidget {
+  const Pedido({super.key});
 
   get productsRepository => null;
 

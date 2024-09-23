@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:app/app/ui/pages/Login.dart';
+import 'package:app/app/ui/pages/pedido.dart';
 import 'package:app/app/ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +43,7 @@ class GuiaClube extends StatelessWidget {
           theme: ThemeData(
               primarySwatch: defaultTheme,
               secondaryHeaderColor: defaultTheme[900]),
-          home: const Login(),
+          home: const Pedido(),
         );
         //}
       },
