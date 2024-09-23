@@ -1,5 +1,5 @@
-
 import 'package:app/app/ui/theme/colors.dart';
+import 'package:app/app/ui/widgets/drawer_custom.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -8,9 +8,10 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       body: Container(),
       appBar: AppBar(
-        title: const Text('Guilheiros'),
+        title: const Text('Login'),
         backgroundColor: defaultTheme,
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
       ),

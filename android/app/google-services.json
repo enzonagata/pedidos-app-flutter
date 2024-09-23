@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "170853061240",
+    "project_id": "pedidos-c01ef",
+    "storage_bucket": "pedidos-c01ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170853061240:android:d8cbdd4f47375df3bbd38d",
+        "android_client_info": {
+          "package_name": "com.nagata.pedidos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEV0b7SfpMApuwspYEA7wIe_6fuCuTMJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
