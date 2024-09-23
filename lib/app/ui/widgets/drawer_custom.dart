@@ -39,8 +39,14 @@ class CustomDrawer extends StatelessWidget {
             leading:
                 const FaIcon(FontAwesomeIcons.building, color: Colors.black),
             title: const Text('Pedidos'),
-            onTap: () {
+            onTap: () async {
               print('Clique em pedidos');
+              // var product = ProductsRepository();
+              // await product.createProduct().then(
+              //   (value) {
+              //     print('Clique em pedidos');
+              //   },
+              // );
             },
           ),
           ListTile(

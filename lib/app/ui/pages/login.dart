@@ -1,15 +1,64 @@
+import 'dart:convert';
+import 'package:app/app/data/models/products_model.dart';
+import 'package:app/app/data/repositories/products_repository.dart';
 import 'package:app/app/ui/theme/colors.dart';
 import 'package:app/app/ui/widgets/drawer_custom.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
 
+  get productsRepository => null;
+
   @override
   Widget build(BuildContext context) {
+    final productsRepository = ProductsRepository();
     return Scaffold(
       drawer: const CustomDrawer(),
-      body: Container(),
+      body: Expanded(
+        flex: 8,
+        child: SingleChildScrollView(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: productsRepository.getAllProducts(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else {
+                if (snapshot.hasData) {                  
+                  var documents = snapshot.data!.docs;
+                  return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        DocumentSnapshot item = documents[index];
+                        String json = jsonEncode(item.data());
+                        Map<String, dynamic> docMap = jsonDecode(json);
+                        var model = ProductsModel.fromJson(docMap);
+                        return Card(
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(15),
+                            title: Text(model.nome),
+                            subtitle: Text(model.descricao),
+                            onTap: () =>
+                                {print('Produto ${model.nome} - ${model.descricao}')},
+                          ),
+                        );
+                      },
+                      itemCount: documents.length);
+                } else {
+                  return const Text('Nada encontrado!');
+                }
+              }
+            },
+          ),
+        ),
+      ),
       appBar: AppBar(
         title: const Text('Login'),
         backgroundColor: defaultTheme,

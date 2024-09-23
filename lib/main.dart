@@ -1,16 +1,9 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:app/app/ui/pages/Login.dart';
 import 'package:app/app/ui/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-// import 'package:get/get.dart';
-// import 'package:guiaclube/utils/Authentication.dart';
-// import 'package:guiaclube/utils/colors.dart';
-// import 'package:guiaclube/widgets/EstablishmentsTabs.dart';
-// import 'package:guiaclube/widgets/Login.dart';
 
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -19,24 +12,8 @@ Future<void> main() async {
         statusBarIconBrightness: Brightness.light,
         systemNavigationBarIconBrightness: Brightness.dark),
   );
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Authentication.initializeFirebase();
-  // await Firebase.initializeApp();
-
-  // Set the background messaging handler early on, as a named top-level function
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // await FirebaseMessaging.instance.getToken().then((value){
-  //   print('token------->>>>>>>>>>> ${value.toString()}');
-  // });
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true,
-  //   badge: true,
-  //   sound: true,
-  // );
-
-  // if (USE_FIRESTORE_EMULATOR) {
-  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  // }
+  WidgetsFlutterBinding.ensureInitialized();  
+  await Firebase.initializeApp();  
   runApp(const GuiaClube());
 }
 
@@ -62,7 +39,7 @@ class GuiaClube extends StatelessWidget {
         //     initializeScreen = Login();
         //   }
         return GetMaterialApp(
-          title: 'Guia Clube',
+          title: 'Pedidos',
           theme: ThemeData(
               primarySwatch: defaultTheme,
               secondaryHeaderColor: defaultTheme[900]),

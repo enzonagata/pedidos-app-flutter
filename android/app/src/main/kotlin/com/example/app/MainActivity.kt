@@ -1,4 +1,4 @@
-package com.example.app
+package com.nagata.pedidos
 
 import io.flutter.embedding.android.FlutterActivity
 
