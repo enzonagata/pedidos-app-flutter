@@ -6,8 +6,8 @@ import 'package:app/app/ui/widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Pedido extends StatelessWidget {
-  const Pedido({super.key});
+class PedidoPage extends StatelessWidget {
+  const PedidoPage({super.key});
 
   get productsRepository => null;
 
@@ -60,7 +60,7 @@ class Pedido extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Pedido'),
         backgroundColor: defaultTheme,
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
       ),
