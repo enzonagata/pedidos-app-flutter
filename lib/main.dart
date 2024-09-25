@@ -44,7 +44,7 @@ class Pedidos extends StatelessWidget {
           theme: ThemeData(
               primarySwatch: defaultTheme,
               secondaryHeaderColor: defaultTheme[900]),
-          initialRoute: AppRoutes.PEDIDO,
+          initialRoute: AppRoutes.LISTA_PEDIDO,
           getPages: AppPages.pages,
         );
       },

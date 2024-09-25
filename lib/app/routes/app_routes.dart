@@ -1,4 +1,6 @@
+// ignore_for_file: constant_identifier_names
+
 abstract class AppRoutes {
-  // ignore: constant_identifier_names
-  static const PEDIDO = '/pedidos';
+  static const PEDIDO = '/pedido';
+  static const LISTA_PEDIDO = '/pedidos';
 }
