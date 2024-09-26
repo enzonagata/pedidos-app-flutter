@@ -1,36 +1,23 @@
+import 'dart:async';
+import 'package:app/app/data/models/pedido_model.dart';
+import 'package:app/app/data/repositories/pedidos_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class PedidoController extends GetxController {
   // Campos do formulário
-  var nomeCliente = ''.obs;
-  var produtoSelecionado = ''.obs;
-  var quantidade = 0.obs;
-  var enderecoEntrega = ''.obs;
-
-  // Lista de produtos
-  final List<String> produtos = ['Produto A', 'Produto B', 'Produto C'];
+  var nome = ''.obs;
+  var endereco = ''.obs;
 
   // Método para validar e salvar o formulário
-  void salvarPedido() {
-    if (nomeCliente.isNotEmpty &&
-        produtoSelecionado.isNotEmpty &&
-        quantidade.value > 0 &&
-        enderecoEntrega.isNotEmpty) {
-      Get.snackbar(
-        'Sucesso',
-        'Pedido cadastrado com sucesso!',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+  Future<DocumentReference<Object?>> salvarPedido() {
+    if (nome.isNotEmpty && endereco.isNotEmpty) {
+      PedidoModel pedidoModel =
+          PedidoModel(nome: nome.value, endereco: endereco.value);
+      PedidosRepository pedidosRepository = PedidosRepository();
+      return pedidosRepository.create(pedidoModel);
     } else {
-      Get.snackbar(
-        'Erro',
-        'Preencha todos os campos corretamente!',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      return Future.error('Não foi possível fazer o cadastro do pedido');
     }
-  }
-
-  void selecionarProduto(String? produto) {
-    produtoSelecionado.value = produto!;
   }
 }

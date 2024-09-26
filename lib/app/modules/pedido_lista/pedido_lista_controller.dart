@@ -1,11 +1,18 @@
+import 'package:app/app/data/repositories/pedidos_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class PedidoListaController extends GetxController {
-  // Exemplo de uma variável reativa
-  var count = 0.obs;
+  var pedidos = <String>[].obs;
 
-  // Método para incrementar o contador
-  void increment() {
-    count++;
+  @override
+  void onInit() {
+    super.onInit();
+    listarPedidos(); // Buscar os produtos ao inicializar o controller
+  }
+
+  Stream<QuerySnapshot<Object?>> listarPedidos() {
+    PedidosRepository pedidosRepository = PedidosRepository();
+    return pedidosRepository.streamGetAll();
   }
 }

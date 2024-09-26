@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:app/app/data/models/pedido_model.dart';
 import 'package:app/app/data/models/produto_model.dart';
-import 'package:app/app/data/repositories/produtos_repository.dart';
+import 'package:app/app/modules/pedido_lista/pedido_lista_controller.dart';
 import 'package:app/app/routes/app_routes.dart';
 import 'package:app/app/ui/theme/colors.dart';
 import 'package:app/app/ui/widgets/drawer_custom.dart';
@@ -14,14 +15,14 @@ class PedidoListaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var productsRepository = ProdutosRepository();
+    final PedidoListaController controller = Get.put(PedidoListaController());
     return Scaffold(
       drawer: const CustomDrawer(),
-      body: Expanded(
-        flex: 8,
+      body: Container(
+        padding: EdgeInsets.all(10),
         child: SingleChildScrollView(
           child: StreamBuilder<QuerySnapshot>(
-            stream: productsRepository.getAllProducts(),
+            stream: controller.listarPedidos(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -33,23 +34,29 @@ class PedidoListaPage extends StatelessWidget {
               } else {
                 if (snapshot.hasData) {
                   var documents = snapshot.data!.docs;
-                  return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        DocumentSnapshot item = documents[index];
-                        String json = jsonEncode(item.data());
-                        Map<String, dynamic> docMap = jsonDecode(json);
-                        var model = ProdutoModel.fromJson(docMap);
-                        return Card(
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(15),
-                            title: Text(model.nome),
-                            onTap: () => {print('Produto ${model.nome}')},
-                          ),
-                        );
-                      },
-                      itemCount: documents.length);
+                  if (documents.length > 0) {
+                    return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          DocumentSnapshot item = documents[index];
+                          String json = jsonEncode(item.data());
+                          Map<String, dynamic> docMap = jsonDecode(json);
+                          var model = PedidoModel.fromJson(docMap);
+                          return Card(
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(15),
+                              title: Text(model.nome),
+                              subtitle: Text(model.endereco),
+                              onTap: () =>
+                                  {print('${model.nome} - ${model.endereco}')},
+                            ),
+                          );
+                        },
+                        itemCount: documents.length);
+                  } else {
+                    return const Text('Nenhum pedido cadastrado');
+                  }
                 } else {
                   return const Text('Nada encontrado!');
                 }

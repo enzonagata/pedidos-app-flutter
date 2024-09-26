@@ -16,7 +16,7 @@ class ProdutoController extends GetxController {
   void buscarProdutos() async {
     var produtosRepository = ProdutosRepository();
     try {
-      QuerySnapshot snapshot = produtosRepository.getAll();
+      QuerySnapshot snapshot = await produtosRepository.getAll();
       produtos.value = snapshot.docs
           .map((doc) =>
               doc['nome'] as String) // Assume que o campo do produto é 'nome'
@@ -28,5 +28,4 @@ class ProdutoController extends GetxController {
   }
 
   // Método para definir o produto selecionado
-  
 }
