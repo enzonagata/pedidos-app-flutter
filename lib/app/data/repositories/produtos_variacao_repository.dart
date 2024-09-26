@@ -1,24 +1,38 @@
 import 'dart:convert';
 
-import 'package:app/app/data/models/pedido_model.dart';
 import 'package:app/app/data/models/produto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PedidosRepository {
+class ProdutosRepository {
   CollectionReference collection() {
-    return FirebaseFirestore.instance.collection('pedidos');
+    return FirebaseFirestore.instance.collection('variacoes');
   }
 
   Future<QuerySnapshot<Object?>> getAll() {
     return collection().get();
   }
 
-  Stream<QuerySnapshot> streamGetAll() {
+  Stream<QuerySnapshot> getAllProducts() {
     return collection().snapshots(includeMetadataChanges: true);
   }
 
-  Future<DocumentReference<Object?>> add(PedidoModel pedidoModel) async {
-    return collection().add(pedidoModel.toJson());
+  Stream<QuerySnapshot> getPhysicalCompanies() {
+    return collection()
+        .where('isOnline', isEqualTo: false)
+        .snapshots(includeMetadataChanges: true);
+  }
+
+  Future<void> createProduct() async {
+    var a = [
+      {
+        "nome": "Celular",
+        "descricao": "Galaxy Z Flip 6",
+      },
+    ];
+
+    for (var item in a) {
+      collection().add(item);
+    }
   }
 
   // TODO: Criar função que traga todos os estabelecimentos

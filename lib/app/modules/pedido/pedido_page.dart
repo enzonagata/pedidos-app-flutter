@@ -41,9 +41,15 @@ class PedidoPage extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
-                    await controller.salvarPedido().then((va) {
+                    print('aaaaaaaa');
+                    await controller.salvarPedido().then((v) {
+                      print(v);
                       Get.back(closeOverlays: true);
-                      Get.snackbar('Sucesso', 'Pedido cadastrado!');
+                      if (v) {
+                        Get.snackbar('Sucesso', 'Pedido cadastrado offiline');
+                      } else {
+                        Get.snackbar('Sucesso', 'Pedido cadastrado!');
+                      }
                     });
                   },
                   child: const Text('Cadastrar Pedido'),

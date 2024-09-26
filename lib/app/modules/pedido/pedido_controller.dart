@@ -8,16 +8,23 @@ class PedidoController extends GetxController {
   // Campos do formulário
   var nome = ''.obs;
   var endereco = ''.obs;
+  var isLocalSave = false.obs;
 
   // Método para validar e salvar o formulário
-  Future<DocumentReference<Object?>> salvarPedido() {
+  Future<bool> salvarPedido() async {
     if (nome.isNotEmpty && endereco.isNotEmpty) {
       PedidoModel pedidoModel =
           PedidoModel(nome: nome.value, endereco: endereco.value);
       PedidosRepository pedidosRepository = PedidosRepository();
-      return pedidosRepository.create(pedidoModel);
-    } else {
-      return Future.error('Não foi possível fazer o cadastro do pedido');
+      var documentRef = await pedidosRepository.add(pedidoModel);
+      documentRef.snapshots().listen((DocumentSnapshot snapshot) {
+        if (snapshot.metadata.hasPendingWrites) {
+          isLocalSave.value = true;
+        } else {
+          isLocalSave.value = false;
+        }
+      });
     }
+    return isLocalSave.value;
   }
 }

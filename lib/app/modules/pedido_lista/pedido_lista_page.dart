@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:app/app/data/models/pedido_model.dart';
-import 'package:app/app/data/models/produto_model.dart';
+import 'package:app/app/modules/pedido_item/pedido_itens_controller.dart';
 import 'package:app/app/modules/pedido_lista/pedido_lista_controller.dart';
 import 'package:app/app/routes/app_routes.dart';
 import 'package:app/app/ui/theme/colors.dart';
@@ -15,14 +14,17 @@ class PedidoListaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PedidoListaController controller = Get.put(PedidoListaController());
+    final PedidoListaController pedidoListaController =
+        Get.put(PedidoListaController());
+    final PedidoItensController pedidoItensController =
+        Get.put(PedidoItensController());
     return Scaffold(
       drawer: const CustomDrawer(),
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
           child: StreamBuilder<QuerySnapshot>(
-            stream: controller.listarPedidos(),
+            stream: pedidoListaController.listarPedidos(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -34,7 +36,7 @@ class PedidoListaPage extends StatelessWidget {
               } else {
                 if (snapshot.hasData) {
                   var documents = snapshot.data!.docs;
-                  if (documents.length > 0) {
+                  if (documents.isNotEmpty) {
                     return ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -45,12 +47,17 @@ class PedidoListaPage extends StatelessWidget {
                           var model = PedidoModel.fromJson(docMap);
                           return Card(
                             child: ListTile(
-                              contentPadding: const EdgeInsets.all(15),
-                              title: Text(model.nome),
-                              subtitle: Text(model.endereco),
-                              onTap: () =>
-                                  {print('${model.nome} - ${model.endereco}')},
-                            ),
+                                contentPadding: const EdgeInsets.all(15),
+                                title: Text(model.nome),
+                                subtitle: Text(model.endereco),
+                                onTap: () {
+                                  pedidoItensController.idPedido.value =
+                                      item.id;
+                                  pedidoItensController.nome.value = model.nome;
+                                  pedidoItensController.endereco.value =
+                                      model.endereco;
+                                  Get.toNamed(AppRoutes.PEDIDO_ITENS);
+                                }),
                           );
                         },
                         itemCount: documents.length);
