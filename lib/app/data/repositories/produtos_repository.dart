@@ -1,21 +1,24 @@
 import 'dart:convert';
 
-import 'package:app/app/data/models/products_model.dart';
+import 'package:app/app/data/models/produto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProductsRepository {
-  late CollectionReference products;
+class ProdutosRepository {
+  
+  CollectionReference collection() {
+     return FirebaseFirestore.instance.collection('produtos');
+  }
 
-  ProductsRepository() {
-    products = FirebaseFirestore.instance.collection('products');
+  getAll(){
+    return collection().get();
   }
 
   Stream<QuerySnapshot> getAllProducts() {
-    return products.snapshots(includeMetadataChanges: true);
+    return collection().snapshots(includeMetadataChanges: true);
   }
 
   Stream<QuerySnapshot> getPhysicalCompanies() {
-    return products
+    return collection()
         .where('isOnline', isEqualTo: false)
         .snapshots(includeMetadataChanges: true);
   }
@@ -29,7 +32,7 @@ class ProductsRepository {
     ];
 
     for (var item in a) {
-      products.add(item);
+      collection().add(item);
     }
   }
 
@@ -43,13 +46,13 @@ class ProductsRepository {
   //         .then((e)=>e.docs.map((DocumentSnapshot a) => a.data() as CompanyModel).toList());
   //     });
 
-  Future<List<ProductsModel>> filterCompanies(String suggestion) async {
-    List<ProductsModel> list = [];
+  Future<List<ProdutoModel>> filterCompanies(String suggestion) async {
+    List<ProdutoModel> list = [];
     if (suggestion != '') {
-      var snapshot = await products.get();
+      var snapshot = await collection().get();
       list = snapshot.docs.map((e) {
         var a = jsonEncode(e.data());
-        return ProductsModel.fromJson(jsonDecode(a));
+        return ProdutoModel.fromJson(jsonDecode(a));
       }).toList();
     }
 

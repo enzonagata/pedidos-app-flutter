@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-import 'package:app/app/data/models/products_model.dart';
-import 'package:app/app/data/repositories/products_repository.dart';
+import 'package:app/app/data/models/produto_model.dart';
+import 'package:app/app/data/repositories/produtos_repository.dart';
+import 'package:app/app/routes/app_routes.dart';
 import 'package:app/app/ui/theme/colors.dart';
 import 'package:app/app/ui/widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PedidoListaPage extends StatelessWidget {
   const PedidoListaPage({super.key});
 
-  get productsRepository => null;
-
   @override
   Widget build(BuildContext context) {
-    var productsRepository = ProductsRepository();
+    var productsRepository = ProdutosRepository();
     return Scaffold(
       drawer: const CustomDrawer(),
       body: Expanded(
@@ -40,16 +40,12 @@ class PedidoListaPage extends StatelessWidget {
                         DocumentSnapshot item = documents[index];
                         String json = jsonEncode(item.data());
                         Map<String, dynamic> docMap = jsonDecode(json);
-                        var model = ProductsModel.fromJson(docMap);
+                        var model = ProdutoModel.fromJson(docMap);
                         return Card(
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(15),
                             title: Text(model.nome),
-                            subtitle: Text(model.descricao),
-                            onTap: () => {
-                              print(
-                                  'Produto ${model.nome} - ${model.descricao}')
-                            },
+                            onTap: () => {print('Produto ${model.nome}')},
                           ),
                         );
                       },
@@ -66,6 +62,10 @@ class PedidoListaPage extends StatelessWidget {
         title: const Text('Lista de Pedidos'),
         backgroundColor: defaultTheme,
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {Get.toNamed(AppRoutes.PEDIDO)},
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'pedido_lista__controller.dart';
+import 'pedido_lista_controller.dart';
 
 class PedidoListaBinding extends Bindings {
   @override

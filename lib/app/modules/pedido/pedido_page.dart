@@ -1,140 +1,90 @@
 import 'dart:convert';
-import 'package:app/app/data/models/products_model.dart';
-import 'package:app/app/data/repositories/products_repository.dart';
+import 'package:app/app/data/models/produto_model.dart';
+import 'package:app/app/data/repositories/produtos_repository.dart';
+import 'package:app/app/modules/pedido/pedido_controller.dart';
 import 'package:app/app/ui/theme/colors.dart';
 import 'package:app/app/ui/widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PedidoPage extends StatelessWidget {
   const PedidoPage({super.key});
 
-  get productsRepository => null;
+  get produtoRepository => null;
 
   @override
   Widget build(BuildContext context) {
-    final productsRepository = ProductsRepository();
+    final produtoRepository = ProdutosRepository();
+    final PedidoController controller = Get.put(PedidoController());
     return Scaffold(
-      drawer: const CustomDrawer(),
-      body: Expanded(
-        flex: 8,
-        child: SingleChildScrollView(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: productsRepository.getAllProducts(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              } else {
-                if (snapshot.hasData) {                  
-                  var documents = snapshot.data!.docs;
-                  return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        DocumentSnapshot item = documents[index];
-                        String json = jsonEncode(item.data());
-                        Map<String, dynamic> docMap = jsonDecode(json);
-                        var model = ProductsModel.fromJson(docMap);
-                        return Card(
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(15),
-                            title: Text(model.nome),
-                            subtitle: Text(model.descricao),
-                            onTap: () =>
-                                {print('Produto ${model.nome} - ${model.descricao}')},
-                          ),
-                        );
-                      },
-                      itemCount: documents.length);
-                } else {
-                  return const Text('Nada encontrado!');
-                }
-              }
-            },
-          ),
-        ),
-      ),
       appBar: AppBar(
-        title: const Text('Pedido'),
+        title: const Text('Novo Pedido'),
         backgroundColor: defaultTheme,
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Nome do Cliente'),
+                onChanged: (value) {
+                  controller.nomeCliente.value = value;
+                },
+              ),
+              const SizedBox(height: 16),
+              Obx(() {
+                // Usar Obx para reatividade
+                return DropdownButtonFormField<String>(
+                  value: controller.produtoSelecionado.value.isEmpty
+                      ? null
+                      : controller.produtoSelecionado.value,
+                  decoration:
+                      InputDecoration(labelText: 'Selecione um Produto'),
+                  items: controller.produtos.map((String produto) {
+                    return DropdownMenuItem<String>(
+                      value: produto,
+                      child: Text(produto),
+                    );
+                  }).toList(),
+                  onChanged: (String? novoProduto) {
+                    controller.selecionarProduto(
+                        novoProduto); // Atualizar o valor selecionado
+                  },
+                );
+              }),
+              const SizedBox(height: 16),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Quantidade'),
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  controller.quantidade.value = int.tryParse(value) ?? 0;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                decoration:
+                    const InputDecoration(labelText: 'Endereço de Entrega'),
+                onChanged: (value) {
+                  controller.enderecoEntrega.value = value;
+                },
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    controller.salvarPedido();
+                  },
+                  child: const Text('Cadastrar Pedido'),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
-
-// class _LoginState extends State<Login> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Stack(
-//         fit: StackFit.expand,
-//         children: [
-//           Positioned(
-//             width: MediaQuery.of(context).size.width,
-//             height: MediaQuery.of(context).size.height,
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.all(50),
-//                   child: Image.asset('lib/assets/logo.png'),
-//                 ),
-//                 // SizedBox(
-//                 //   height: 30,
-//                 // ),
-//                 // HeadlineText(text: 'entrar com', size: 14),
-//                 // SizedBox(
-//                 //   height: 12,
-//                 // ),
-//                 // FacebookButton(onPressed: () => {print('facebook')}),
-//                 // SizedBox(
-//                 //   height: 10,
-//                 // ),
-//                 // GoogleButton(
-//                 //     onPressed: () async =>
-//                 //         await Authentication.signInWithGoogle().then((value) {
-//                 //           Get.to(main());
-//                 //         })),
-//                 // SizedBox(
-//                 //   height: 100,
-//                 // ),
-//                 // // LogoutButton(onPressed: () async => await Authentication.signOut(context: context)),
-//                 // // SizedBox(
-//                 // //   height: 100,
-//                 // // ),
-//               ],
-//             ),
-//           ),
-//           Positioned(
-//             width: MediaQuery.of(context).size.width,
-//             bottom: MediaQuery.of(context).size.height * 0.25,
-//             child: const Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Expanded(
-//                     child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   crossAxisAlignment: CrossAxisAlignment.center,
-//                   children: [
-//                     Text(
-//                       'Ao entrar, estará de acordo com nosso termo de uso e privacidade.',
-//                       textAlign: TextAlign.center,
-//                     )
-//                   ],
-//                 ))
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
