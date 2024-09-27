@@ -65,6 +65,7 @@ class PedidoListaPage extends StatelessWidget {
                                     pedidoController.nome.value = model.nome;
                                     pedidoController.endereco.value =
                                         model.endereco;
+                                    pedidoController.telefone.value = model.telefone!;
                                     pedidoController.teste();
                                     Get.toNamed(AppRoutes.PEDIDO);
                                   },

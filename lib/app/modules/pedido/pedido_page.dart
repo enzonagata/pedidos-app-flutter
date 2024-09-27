@@ -11,12 +11,14 @@ class PedidoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final PedidoController pedidoController = Get.put(PedidoController());
     final TextEditingController textEditingController = MaskedTextController(
         mask: '(00) 00000-0000',
         text: (pedidoController.telefone.value.isNotEmpty)
             ? pedidoController.telefone.value
             : '');
+    print(pedidoController.telefone.value);
     return Scaffold(
       appBar: AppBar(
         title: (pedidoController.idPedido.isNotEmpty)
