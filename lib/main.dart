@@ -14,7 +14,17 @@ Future<void> main() async {
         systemNavigationBarIconBrightness: Brightness.dark),
   );
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyC3rjdyNLFPS7NjxrXz90el-Q3RpPPZrls",
+      appId: "1:170853061240:web:7d611497d1ee31ddbbd38d",
+      messagingSenderId: "170853061240",
+      projectId: "pedidos-c01ef",
+      authDomain: "pedidos-c01ef.firebaseapp.com",
+      storageBucket: "pedidos-c01ef.appspot.com",
+      measurementId: "G-9RBCX3FE1V"
+    ),
+  );
   runApp(const Pedidos());
 }
 
