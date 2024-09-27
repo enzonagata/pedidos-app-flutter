@@ -9,13 +9,14 @@ class PedidoController extends GetxController {
   var idPedido = ''.obs;
   var nome = ''.obs;
   var endereco = ''.obs;
+  var telefone = ''.obs;
   var isLocalSave = false.obs;
 
   // Método para validar e salvar o formulário
   Future<bool> salvarPedido() async {
     if (nome.isNotEmpty && endereco.isNotEmpty) {
       PedidoModel pedidoModel =
-          PedidoModel(nome: nome.value, endereco: endereco.value);
+          PedidoModel(nome: nome.value, endereco: endereco.value,telefone: telefone.value);
       PedidosRepository pedidosRepository = PedidosRepository();
 
       if (idPedido.isNotEmpty) {
@@ -31,6 +32,10 @@ class PedidoController extends GetxController {
         });
       }
     }
+    idPedido.value = '';
+    nome.value = '';
+    endereco.value = '';
+    telefone.value = '';
     return isLocalSave.value;
   }
 

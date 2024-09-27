@@ -1,6 +1,7 @@
 import 'package:app/app/modules/pedido/pedido_controller.dart';
 import 'package:app/app/ui/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
 
 class PedidoPage extends StatelessWidget {
@@ -11,6 +12,11 @@ class PedidoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PedidoController pedidoController = Get.put(PedidoController());
+    final TextEditingController textEditingController = MaskedTextController(
+        mask: '(00) 00000-0000',
+        text: (pedidoController.telefone.value.isNotEmpty)
+            ? pedidoController.telefone.value
+            : '');
     return Scaffold(
       appBar: AppBar(
         title: (pedidoController.idPedido.isNotEmpty)
@@ -39,6 +45,14 @@ class PedidoPage extends StatelessWidget {
                 initialValue: pedidoController.endereco.value,
                 onChanged: (value) {
                   pedidoController.endereco.value = value;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: textEditingController,
+                decoration: const InputDecoration(labelText: 'Telefone'),
+                onChanged: (value) {
+                  pedidoController.telefone.value = value;
                 },
               ),
               const SizedBox(height: 32),
