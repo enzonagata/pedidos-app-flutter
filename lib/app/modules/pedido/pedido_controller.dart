@@ -15,8 +15,8 @@ class PedidoController extends GetxController {
   // Método para validar e salvar o formulário
   Future<bool> salvarPedido() async {
     if (nome.isNotEmpty && endereco.isNotEmpty) {
-      PedidoModel pedidoModel =
-          PedidoModel(nome: nome.value, endereco: endereco.value,telefone: telefone.value);
+      PedidoModel pedidoModel = PedidoModel(
+          nome: nome.value, endereco: endereco.value, telefone: telefone.value);
       PedidosRepository pedidosRepository = PedidosRepository();
 
       if (idPedido.isNotEmpty) {
@@ -31,6 +31,9 @@ class PedidoController extends GetxController {
           }
         });
       }
+    } else {
+      Get.snackbar('Erro', 'Todos os campos devem ser preenchidos');
+      throw Error();
     }
     idPedido.value = '';
     nome.value = '';
