@@ -21,6 +21,14 @@ class PedidosRepository {
     return collection().add(pedidoModel.toJson());
   }
 
+  Future<void> delete(id) async {
+    return collection().doc(id).delete();
+  }
+
+  Future<void> update(String id, PedidoModel pedidoModel) async {
+    return collection().doc(id).update(pedidoModel.toJson());
+  }
+
   // TODO: Criar função que traga todos os estabelecimentos
   // Future<List<Map<String, dynamic>>> filterCompanies(String suggestion) => this
   //         .companies

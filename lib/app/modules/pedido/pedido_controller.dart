@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 class PedidoController extends GetxController {
   // Campos do formulário
+  var idPedido = ''.obs;
   var nome = ''.obs;
   var endereco = ''.obs;
   var isLocalSave = false.obs;
@@ -16,15 +17,24 @@ class PedidoController extends GetxController {
       PedidoModel pedidoModel =
           PedidoModel(nome: nome.value, endereco: endereco.value);
       PedidosRepository pedidosRepository = PedidosRepository();
-      var documentRef = await pedidosRepository.add(pedidoModel);
-      documentRef.snapshots().listen((DocumentSnapshot snapshot) {
-        if (snapshot.metadata.hasPendingWrites) {
-          isLocalSave.value = true;
-        } else {
-          isLocalSave.value = false;
-        }
-      });
+
+      if (idPedido.isNotEmpty) {
+        await pedidosRepository.update(idPedido.value, pedidoModel);
+      } else {
+        var documentRef = await pedidosRepository.add(pedidoModel);
+        documentRef.snapshots().listen((DocumentSnapshot snapshot) {
+          if (snapshot.metadata.hasPendingWrites) {
+            isLocalSave.value = true;
+          } else {
+            isLocalSave.value = false;
+          }
+        });
+      }
     }
     return isLocalSave.value;
+  }
+
+  teste() {
+    print(idPedido.value);
   }
 }

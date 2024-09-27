@@ -10,10 +10,12 @@ class PedidoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PedidoController controller = Get.put(PedidoController());
+    final PedidoController pedidoController = Get.put(PedidoController());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Novo Pedido'),
+        title: (pedidoController.idPedido.isNotEmpty)
+            ? const Text('Atualizar Pedido')
+            : const Text('Novo Pedido'),
         backgroundColor: defaultTheme,
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
       ),
@@ -25,34 +27,40 @@ class PedidoPage extends StatelessWidget {
             children: [
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Nome do Cliente'),
+                initialValue: pedidoController.nome.value,
                 onChanged: (value) {
-                  controller.nome.value = value;
+                  pedidoController.nome.value = value;
                 },
               ),
               const SizedBox(height: 16),
               TextFormField(
                 decoration:
                     const InputDecoration(labelText: 'Endereço de Entrega'),
+                initialValue: pedidoController.endereco.value,
                 onChanged: (value) {
-                  controller.endereco.value = value;
+                  pedidoController.endereco.value = value;
                 },
               ),
               const SizedBox(height: 32),
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
-                    print('aaaaaaaa');
-                    await controller.salvarPedido().then((v) {
-                      print(v);
+                    await pedidoController.salvarPedido().then((v) {
                       Get.back(closeOverlays: true);
                       if (v) {
                         Get.snackbar('Sucesso', 'Pedido cadastrado offiline');
                       } else {
-                        Get.snackbar('Sucesso', 'Pedido cadastrado!');
+                        if (pedidoController.idPedido.isNotEmpty) {
+                          Get.snackbar('Sucesso', 'Pedido atualizado!');
+                        } else {
+                          Get.snackbar('Sucesso', 'Pedido cadastrado!');
+                        }
                       }
                     });
                   },
-                  child: const Text('Cadastrar Pedido'),
+                  child: (pedidoController.idPedido.isNotEmpty)
+                      ? const Text('Atualizar Pedido')
+                      : const Text('Cadastrar Pedido'),
                 ),
               ),
             ],

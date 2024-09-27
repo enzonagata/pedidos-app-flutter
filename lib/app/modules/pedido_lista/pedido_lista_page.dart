@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:app/app/data/models/pedido_model.dart';
+import 'package:app/app/modules/pedido/pedido_controller.dart';
 import 'package:app/app/modules/pedido_item/pedido_itens_controller.dart';
 import 'package:app/app/modules/pedido_lista/pedido_lista_controller.dart';
 import 'package:app/app/routes/app_routes.dart';
@@ -18,6 +19,7 @@ class PedidoListaPage extends StatelessWidget {
         Get.put(PedidoListaController());
     final PedidoItensController pedidoItensController =
         Get.put(PedidoItensController());
+    final PedidoController pedidoController = Get.put(PedidoController());
     return Scaffold(
       drawer: const CustomDrawer(),
       body: Container(
@@ -50,6 +52,24 @@ class PedidoListaPage extends StatelessWidget {
                                 contentPadding: const EdgeInsets.all(15),
                                 title: Text(model.nome),
                                 subtitle: Text(model.endereco),
+                                trailing: OutlinedButton(
+                                  onPressed: () {
+                                    _showDeleteConfirmationDialog(
+                                        context, item.id);
+                                  },
+                                  child: const Icon(Icons.delete_forever),
+                                ),
+                                leading: OutlinedButton(
+                                  onPressed: () {
+                                    pedidoController.idPedido.value = item.id;
+                                    pedidoController.nome.value = model.nome;
+                                    pedidoController.endereco.value =
+                                        model.endereco;
+                                    pedidoController.teste();
+                                    Get.toNamed(AppRoutes.PEDIDO);
+                                  },
+                                  child: const Icon(Icons.edit),
+                                ),
                                 onTap: () {
                                   pedidoItensController.idPedido.value =
                                       item.id;
@@ -83,6 +103,35 @@ class PedidoListaPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showDeleteConfirmationDialog(BuildContext context, idPedido) {
+  PedidoListaController pedidoListaController = PedidoListaController();
+  pedidoListaController.idPedido.value = idPedido;
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Confirmar?'),
+        content: const Text('Deseja realmente apagra o registro?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancelar'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+            },
+          ),
+          TextButton(
+            child: const Text('Eliminar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              pedidoListaController.delete(idPedido);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
 
 // class _LoginState extends State<Login> {
