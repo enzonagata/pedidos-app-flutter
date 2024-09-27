@@ -65,7 +65,8 @@ class PedidoListaPage extends StatelessWidget {
                                     pedidoController.nome.value = model.nome;
                                     pedidoController.endereco.value =
                                         model.endereco;
-                                    pedidoController.telefone.value = model.telefone!;
+                                    pedidoController.telefone.value =
+                                        model.telefone!;
                                     pedidoController.teste();
                                     Get.toNamed(AppRoutes.PEDIDO);
                                   },
@@ -99,7 +100,13 @@ class PedidoListaPage extends StatelessWidget {
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 24),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {Get.toNamed(AppRoutes.PEDIDO)},
+        onPressed: () {
+          pedidoController.idPedido.value = '';
+          pedidoController.nome.value = '';
+          pedidoController.endereco.value = '';
+          pedidoController.telefone.value = '';
+          Get.toNamed(AppRoutes.PEDIDO);
+        },
         child: const Icon(Icons.add),
       ),
     );
