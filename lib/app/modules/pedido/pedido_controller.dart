@@ -41,8 +41,4 @@ class PedidoController extends GetxController {
     telefone.value = '';
     return isLocalSave.value;
   }
-
-  teste() {
-    print(idPedido.value);
-  }
 }

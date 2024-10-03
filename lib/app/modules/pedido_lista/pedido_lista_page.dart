@@ -67,7 +67,6 @@ class PedidoListaPage extends StatelessWidget {
                                         model.endereco;
                                     pedidoController.telefone.value =
                                         model.telefone!;
-                                    pedidoController.teste();
                                     Get.toNamed(AppRoutes.PEDIDO);
                                   },
                                   child: const Icon(Icons.edit),
@@ -78,6 +77,8 @@ class PedidoListaPage extends StatelessWidget {
                                   pedidoItensController.nome.value = model.nome;
                                   pedidoItensController.endereco.value =
                                       model.endereco;
+                                  pedidoItensController.telefone.value =
+                                      model.telefone!;
                                   Get.toNamed(AppRoutes.PEDIDO_ITENS);
                                 }),
                           );
