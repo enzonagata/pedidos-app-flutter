@@ -1,15 +1,23 @@
+import 'package:app/app/data/models/pedido_produto_model.dart';
+
 class PedidoModel {
   String nome = '';
   String endereco = '';
   String? telefone = '';
+  List<PedidoProdutoModel>? pedidoProdutoModel = [];
 
-  PedidoModel({required this.nome, required this.endereco, this.telefone});
+  PedidoModel(
+      {required this.nome,
+      required this.endereco,
+      this.telefone,
+      this.pedidoProdutoModel});
 
   factory PedidoModel.fromJson(Map<String, dynamic> json) {
     return PedidoModel(
         nome: json['nome'],
         endereco: json['endereco'],
-        telefone: json['telefone'] ?? "");
+        telefone: json['telefone'] ?? "",
+        pedidoProdutoModel: json['itens']);
   }
 
   Map<String, dynamic> toJson() {
@@ -17,6 +25,7 @@ class PedidoModel {
     data['nome'] = nome;
     data['endereco'] = endereco;
     data['telefone'] = telefone;
+    data['itens'] = List<PedidoProdutoModel>;
     return data;
   }
 }
