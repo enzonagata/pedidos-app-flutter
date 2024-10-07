@@ -17,7 +17,7 @@ class PedidoModel {
         nome: json['nome'],
         endereco: json['endereco'],
         telefone: json['telefone'] ?? "",
-        pedidoProdutoModel: json['itens']);
+        pedidoProdutoModel: List.from(json['itens']));
   }
 
   Map<String, dynamic> toJson() {
@@ -25,7 +25,6 @@ class PedidoModel {
     data['nome'] = nome;
     data['endereco'] = endereco;
     data['telefone'] = telefone;
-    data['itens'] = List<PedidoProdutoModel>;
     return data;
   }
 }

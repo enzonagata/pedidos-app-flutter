@@ -1,5 +1,4 @@
 import 'package:app/app/modules/pedido/pedido_binding.dart';
-import 'package:app/app/modules/pedido/pedido_controller.dart';
 import 'package:app/app/modules/pedido/pedido_page.dart';
 import 'package:app/app/modules/pedido_item/pedido_itens_binding.dart';
 import 'package:app/app/modules/pedido_item/pedido_itens_page.dart';
