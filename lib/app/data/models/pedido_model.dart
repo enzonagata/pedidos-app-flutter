@@ -1,10 +1,10 @@
 import 'package:app/app/data/models/pedido_produto_model.dart';
 
 class PedidoModel {
-  String nome = '';
-  String endereco = '';
-  String? telefone = '';
-  List<PedidoProdutoModel>? pedidoProdutoModel = [];
+  String nome;
+  String endereco;
+  String? telefone;
+  List<PedidoProdutoModel>? pedidoProdutoModel;
 
   PedidoModel(
       {required this.nome,

@@ -1,6 +1,6 @@
 class ProdutoModel {
-  String nome = '';
-  String? idProduto = '';
+  String nome;
+  String? idProduto;
 
   ProdutoModel({required this.nome, this.idProduto});
 
