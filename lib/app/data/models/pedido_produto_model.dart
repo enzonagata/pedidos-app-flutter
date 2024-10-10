@@ -1,8 +1,8 @@
 class PedidoProdutoModel {
-  String idProduto;
+  String? idProduto;
   num? quantidade;
 
-  PedidoProdutoModel({required this.idProduto, this.quantidade});
+  PedidoProdutoModel({this.idProduto, this.quantidade});
 
   factory PedidoProdutoModel.fromMap(Map<String, dynamic> data) {
     return PedidoProdutoModel(

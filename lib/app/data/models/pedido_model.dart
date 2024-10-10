@@ -13,11 +13,18 @@ class PedidoModel {
       this.pedidoProdutoModel});
 
   factory PedidoModel.fromJson(Map<String, dynamic> json) {
+    List<dynamic> jsonArray = json['itens'] ?? [];
+    List<PedidoProdutoModel> jsonPedidoModel =
+        jsonArray.map((json) => PedidoProdutoModel.fromJson(json)).toList();
     return PedidoModel(
         nome: json['nome'],
         endereco: json['endereco'],
         telefone: json['telefone'] ?? "",
-        pedidoProdutoModel: List.from(json['itens']));
+        pedidoProdutoModel: jsonPedidoModel);
+  }
+
+  List<PedidoProdutoModel> parseDadosModelList(List<dynamic> jsonArray) {
+    return jsonArray.map((json) => PedidoProdutoModel.fromJson(json)).toList();
   }
 
   Map<String, dynamic> toJson() {

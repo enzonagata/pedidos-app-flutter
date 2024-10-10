@@ -61,6 +61,7 @@ class PedidoListaPage extends StatelessWidget {
                                 ),
                                 leading: OutlinedButton(
                                   onPressed: () {
+                                    print(model.pedidoProdutoModel);
                                     pedidoController.idPedido.value = item.id;
                                     pedidoController.nome.value = model.nome;
                                     pedidoController.endereco.value =
