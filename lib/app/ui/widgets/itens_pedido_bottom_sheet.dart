@@ -30,9 +30,9 @@ class ItensPedidoBottomSheet {
                   children: [
                     Obx(() {
                       return DropdownButton<String>(
-                        value: pedidoItensController.selectedItem.value.isEmpty
+                        value: pedidoItensController.idProduto.value.isEmpty
                             ? null
-                            : pedidoItensController.selectedItem.value,
+                            : pedidoItensController.idProduto.value,
                         hint: const Text('Selecione uma opção'),
                         items: produtoController.produtos.map((item) {
                           return DropdownMenuItem<String>(
@@ -45,6 +45,14 @@ class ItensPedidoBottomSheet {
                         },
                       );
                     }),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          pedidoItensController.adicionarItem();
+                        },
+                        child: const Icon(Icons.delete_forever),
+                      ),
+                    )
                   ],
                 ),
               ),

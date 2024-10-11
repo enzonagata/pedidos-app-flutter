@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/app/data/models/pedido_model.dart';
+import 'package:app/app/data/models/pedido_produto_model.dart';
 import 'package:app/app/data/models/produto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -31,6 +32,13 @@ class PedidosRepository {
 
   Future<void> update(String id, PedidoModel pedidoModel) async {
     return collection().doc(id).update(pedidoModel.toJson());
+  }
+
+  Future<void> adicionarItem(PedidoProdutoModel item, id) async {
+    print(item.toJson());
+    return collection().doc(id).update({
+      'itens': FieldValue.arrayUnion([item.toJson()])
+    });
   }
 
   Future<List<ProdutoModel>> filterCompanies(String suggestion) async {
