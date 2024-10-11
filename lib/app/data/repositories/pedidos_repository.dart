@@ -17,6 +17,10 @@ class PedidosRepository {
     return collection().snapshots(includeMetadataChanges: true);
   }
 
+  Stream<DocumentSnapshot> streamGetFromId(id) {
+    return collection().doc(id).snapshots(includeMetadataChanges: true);
+  }
+
   Future<DocumentReference<Object?>> add(PedidoModel pedidoModel) async {
     return collection().add(pedidoModel.toJson());
   }
@@ -28,16 +32,6 @@ class PedidosRepository {
   Future<void> update(String id, PedidoModel pedidoModel) async {
     return collection().doc(id).update(pedidoModel.toJson());
   }
-
-  // TODO: Criar função que traga todos os estabelecimentos
-  // Future<List<Map<String, dynamic>>> filterCompanies(String suggestion) => this
-  //         .companies
-  //         .where('nomeFantasia', isGreaterThanOrEqualTo: suggestion)
-  //         .where('nomeFantasia', isLessThan: suggestion + 'z')
-  //         .('nomeFantasia')
-  //         .get()
-  //         .then((e)=>e.docs.map((DocumentSnapshot a) => a.data() as CompanyModel).toList());
-  //     });
 
   Future<List<ProdutoModel>> filterCompanies(String suggestion) async {
     List<ProdutoModel> list = [];
@@ -51,7 +45,4 @@ class PedidosRepository {
 
     return list;
   }
-
-  // TODO: Criar função que traga todos os estabelecimentos filtrados na pesquisa
-  // TODO: Criar função que traga todos os estabelecimentos filtrados na pesquisa com limite de distancia
 }

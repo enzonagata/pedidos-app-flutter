@@ -17,7 +17,12 @@ class PedidoListaController extends GetxController {
     return pedidosRepository.streamGetAll();
   }
 
-  Future<void> delete(idPedido) async{
+  Stream<DocumentSnapshot<Object?>> listarItensPedidos(id) {
+    PedidosRepository pedidosRepository = PedidosRepository();
+    return pedidosRepository.streamGetFromId(id);
+  }
+
+  Future<void> delete(idPedido) async {
     PedidosRepository pedidosRepository = PedidosRepository();
     return await pedidosRepository.delete(idPedido);
   }
