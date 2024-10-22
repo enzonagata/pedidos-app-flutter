@@ -23,9 +23,11 @@ class PedidoItensController extends GetxController {
 
   Future<void> adicionarItem() async {
     PedidoProdutoModel pedidoProdutoModel = PedidoProdutoModel(
-        idProduto: idProduto.value.toString(), quantidade: quantidade.value.toInt());
+        idProduto: idProduto.value.toString(),
+        quantidade: quantidade.value.toInt());
     PedidosRepository pedidosRepository = PedidosRepository();
-    return pedidosRepository.adicionarItem(pedidoProdutoModel, idPedido);
+    return pedidosRepository.adicionarItem(
+        pedidoProdutoModel, idPedido.value.toString());
   }
 
   void selecionarProduto(String? produto) {
@@ -34,6 +36,7 @@ class PedidoItensController extends GetxController {
 
   // Função para selecionar um item
   void selectItem(String value) {
+    print(value);
     idProduto.value = value;
   }
 }

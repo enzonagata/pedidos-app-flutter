@@ -35,9 +35,9 @@ class PedidosRepository {
   }
 
   Future<void> adicionarItem(PedidoProdutoModel item, id) async {
-    print(item.toJson());
+    var toSave = item.toJson();
     return collection().doc(id).update({
-      'itens': FieldValue.arrayUnion([item.toJson()])
+      'itens': FieldValue.arrayUnion([toSave])
     });
   }
 

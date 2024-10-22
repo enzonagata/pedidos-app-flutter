@@ -52,7 +52,7 @@ class PedidoItensPage extends StatelessWidget {
                           return Card(
                             child: ListTile(
                                 contentPadding: const EdgeInsets.all(15),
-                                title: Text(item['idProduto'].toString()),
+                                title: Text(item['id_produto'].toString()),
                                 subtitle: Text(item['quantidade'].toString()),
                                 trailing: OutlinedButton(
                                   onPressed: () {},

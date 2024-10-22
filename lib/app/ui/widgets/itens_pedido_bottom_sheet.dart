@@ -50,7 +50,7 @@ class ItensPedidoBottomSheet {
                         onPressed: () {
                           pedidoItensController.adicionarItem();
                         },
-                        child: const Icon(Icons.delete_forever),
+                        child: const Icon(Icons.save_alt),
                       ),
                     )
                   ],
